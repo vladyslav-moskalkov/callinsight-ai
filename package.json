@@ -1,0 +1,13 @@
+{
+  "name": "callinsight-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline checks for a sanitized n8n call-analysis demonstration",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
