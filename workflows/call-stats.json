@@ -1,0 +1,142 @@
+{
+  "name": "[tool] Get call stats",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "startDate"
+            },
+            {
+              "name": "endDate"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "35df54e3-3766-449b-857e-94ee6264d8ed",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "jsCode": "const startDate = $('Start').first().json.startDate;\nconst endDate = $('Start').first().json.endDate;\n\nconst start = new Date(startDate);\nconst end = new Date(endDate);\nend.setHours(23, 59, 59, 999);\n\nconst rows = $('Get row(s) in sheet').all();\n\nconst calls = rows.filter(row => {\n  if (row.json.Status !== \"Done\") return false;\n\n  const processedAt = new Date(row.json[\"Processed At\"]);\n\n  return processedAt >= start && processedAt <= end;\n});\n\nconst totalCalls = calls.length;\n\nconst negativeCalls = calls.filter(\n  row => row.json.Tone === \"Негативний\"\n).length;\n\nreturn [\n  {\n    json: {\n      totalCalls,\n      negativeCalls,\n      negativeCallPercent:\n        totalCalls\n          ? Math.round((negativeCalls / totalCalls) * 100)\n          : 0\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "a013d4f9-bbd0-42e8-a5e4-eabf66d2e1c9",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4e67c1f-f4bb-4975-b451-2c8bd1a2d102",
+              "name": "totalCalls",
+              "value": "={{ $json.totalCalls }}",
+              "type": "number"
+            },
+            {
+              "id": "6c4137d2-cb5f-491e-bc65-391ee60d42f7",
+              "name": "=negativeCalls",
+              "value": "={{ $json.negativeCalls }}",
+              "type": "number"
+            },
+            {
+              "id": "199195ca-cd3d-4a9e-862a-1de181abd007",
+              "name": "=negativeCallPercent",
+              "value": "={{ $json.negativeCallPercent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        0
+      ],
+      "id": "0f543bec-a775-4d82-944a-4bb683cf0148",
+      "name": "Result"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "REPLACE_WITH_QUEUE_SPREADSHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Calls"
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "cca199a7-86ca-4482-ab78-d19c5afebbc4",
+      "name": "Get row(s) in sheet"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  }
+}
