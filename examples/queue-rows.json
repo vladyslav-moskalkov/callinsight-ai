@@ -1,0 +1,26 @@
+[
+  {
+    "row_number": 2,
+    "Recording URL": "https://drive.google.com/file/d/DEMO_AUDIO_ID/view",
+    "Status": "",
+    "Processed At": "",
+    "Tone": "",
+    "Category": ""
+  },
+  {
+    "row_number": 3,
+    "Recording URL": "https://drive.google.com/file/d/DEMO_DONE_ID/view",
+    "Status": "Done",
+    "Processed At": "2026-09-30T12:00:00Z",
+    "Tone": "Негативний",
+    "Category": "Доставка"
+  },
+  {
+    "row_number": 4,
+    "Recording URL": "https://drive.google.com/file/d/DEMO_POSITIVE_ID/view",
+    "Status": "Done",
+    "Processed At": "2026-10-01T12:00:00Z",
+    "Tone": "Позитивний",
+    "Category": "Замовлення"
+  }
+]
