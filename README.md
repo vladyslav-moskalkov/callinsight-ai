@@ -1,5 +1,7 @@
 # CallInsight AI
 
+[![Validate demonstration](https://github.com/vladyslav-moskalkov/callinsight-ai/actions/workflows/validate.yml/badge.svg)](https://github.com/vladyslav-moskalkov/callinsight-ai/actions/workflows/validate.yml)
+
 **AI-assisted call analysis and conversational reporting, built with n8n, AssemblyAI and `gpt-5-mini`.**
 
 CallInsight turns a queue of call recordings into categorized, sentiment-labelled records that a manager can query through a chat assistant. It combines audio processing with a deterministic statistics tool: JavaScript counts the calls; the assistant explains the returned numbers.
